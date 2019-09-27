@@ -13,9 +13,9 @@ import reactor.core.publisher.Mono;
 @Repository
 public interface TeachersRepository extends ReactiveMongoRepository<Teachers, String> {
 
-	Mono<Teachers> findByFullname(String fullname);
+  Flux<Teachers> findByBirthdateBetween(LocalDate from, LocalDate to);
 
-	Mono <Teachers> findByDocument(String document);
+  Mono<Teachers> findByDocument(String document);
 
-	Flux<Teachers> findByBirthdateBetween(LocalDate from, LocalDate to);
+  Mono<Teachers> findByFullname(String fullname);
 }

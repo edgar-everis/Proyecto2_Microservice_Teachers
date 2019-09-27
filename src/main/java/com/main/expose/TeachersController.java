@@ -25,47 +25,46 @@ import reactor.core.publisher.Mono;
 @RestController
 @RequestMapping("API/Teachers")
 public class TeachersController {
-	
-	@Autowired
-	private TeachersService service;
-	
-	
-	@GetMapping
-	public Flux<Teachers> getall()
-	{return service.getAll();}
 
-	
-	@GetMapping("/fullname/{fullname}")
-	public Mono<Teachers> findbyFullname(@PathVariable String fullname)
-	{return service.findByFullname(fullname);}
+  @Autowired private TeachersService service;
 
-	
-	@GetMapping("/document/{number}")
-	public Mono <Teachers> findbyDocument(@PathVariable String number)
-	{return service.findByDocument(number);}
+  @PostMapping("/create")
+  @ResponseStatus(HttpStatus.CREATED)
+  public Mono<Teachers> createTeacher(@RequestBody Teachers teachers) {
+    return service.createTeacher(teachers);
+  }
 
-	@GetMapping("/daterange/{from}/{to}")
-	public Flux<Teachers> searchbyrrangeBirthdate(
-	    @PathVariable @DateTimeFormat(iso = ISO.DATE) LocalDate from,
-	    @PathVariable  @DateTimeFormat(iso = ISO.DATE)  LocalDate to) {
-	  return service.findByBirthdateBetween(from, to);
-	}
+  @DeleteMapping("/delete/{id}")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  public Mono<Void> deleteTeacher(@PathVariable String id) {
+    return service.deleteById(id);
+  }
 
-	
-	@PostMapping("/create")
-	@ResponseStatus(HttpStatus.CREATED)
-	public Mono<Teachers> createStudent(@RequestBody Teachers teachers){
-	return service.createTeacher(teachers);}
+  @GetMapping("/document/{number}")
+  public Mono<Teachers> findbyDocument(@PathVariable String number) {
+    return service.findByDocument(number);
+  }
 
-	
-	@PutMapping("/update/{id}")
-	@ResponseStatus(HttpStatus.CREATED)
-	public Mono<Teachers> updateStudent(@PathVariable String id,@RequestBody Teachers teachers)
-	{return service.modifyTecacher(id, teachers);}
+  @GetMapping("/fullname/{fullname}")
+  public Mono<Teachers> findbyFullname(@PathVariable String fullname) {
+    return service.findByFullname(fullname);
+  }
 
-	
-	@DeleteMapping("/delete/{id}")
-	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public Mono<Void> deleteStudents(@PathVariable String id) 
-	{return service.deleteById(id);}
+  @GetMapping
+  public Flux<Teachers> getall() {
+    return service.getAll();
+  }
+
+  @GetMapping("/daterange/{from}/{to}")
+  public Flux<Teachers> searchbyrrangeBirthdate(
+      @PathVariable @DateTimeFormat(iso = ISO.DATE) LocalDate from,
+      @PathVariable @DateTimeFormat(iso = ISO.DATE) LocalDate to) {
+    return service.findByBirthdateBetween(from, to);
+  }
+
+  @PutMapping("/update/{id}")
+  @ResponseStatus(HttpStatus.CREATED)
+  public Mono<Teachers> updateTeacher(@PathVariable String id, @RequestBody Teachers teachers) {
+    return service.modifyTecacher(id, teachers);
+  }
 }
